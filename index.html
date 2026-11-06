@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- Eclipse Pyramids: plain WebGL, no libraries. Run with `python3 tools/serve.py`
+     (the images can't be read from file://) and open http://localhost:8000. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Eclipse Pyramids</title>
+  <!-- Jost for small text, Cormorant Garamond for the title (falls back to system fonts) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Cormorant+Garamond:wght@500&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- header sits over the canvas; class picks the look: "serif", "strip" or "centered" -->
+  <header id="header" class="serif">
+    <h1>Eclipse Pyramids</h1>
+    <p class="name">Austin Heiss</p>
+    <p class="info">Dunes and pyramids from a height map, with a bezier-path eclipse.
+       Drag to steer, scroll to zoom. Best on a fast computer.</p>
+    <div id="levels" class="control">
+      <span>Level</span>
+      <button data-level="0">0</button>
+      <button data-level="1">1</button>
+      <button data-level="2">2</button>
+      <button data-level="3">3</button>
+      <button data-level="4">4</button>
+    </div>
+    <!-- cubes per side used to sample the images -->
+    <label id="resolution" class="control">
+      <span id="resolution-name">Resolution</span>
+      <input id="grid-size" type="range" min="30" max="160" step="10" value="120">
+      <span id="grid-size-label"></span>
+    </label>
+    <div class="control">
+      <button id="reset-view">Reset view</button>
+    </div>
+  </header>
+
+  <canvas id="glcanvas"></canvas>
+
+  <!-- order matters: each file uses what the ones above it made -->
+  <script src="js/renderer.js"></script>   <!-- Steps 1-3: WebGL and shaders -->
+  <script src="js/cube.js"></script>       <!-- Step 4: the cube -->
+  <script src="js/mat4.js"></script>       <!-- Step 5: matrix math -->
+  <script src="js/landscape.js"></script>  <!-- Step 6: the land cubes -->
+  <script src="js/sky.js"></script>        <!-- sun and moon -->
+  <script src="js/main.js"></script>       <!-- Steps 7-9: camera, draw, controls -->
+</body>
+</html>

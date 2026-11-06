@@ -1,0 +1,95 @@
+/* no margin or scroll bars, the canvas fills the window */
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+
+/* on-screen size only; the drawing size is set in resizeCanvas (main.js) */
+canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+
+/* header floats over the canvas; drags pass through it */
+#header {
+  position: fixed; top: 0; left: 0; right: 0;
+  color: #3a2c1c; pointer-events: none;
+  font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+  transition: color 1.2s;
+}
+#header h1, #header p { margin: 0; font-weight: 400; }
+#header .info { font-size: 12px; letter-spacing: 0.2px; opacity: 0.75; }
+
+/* pale text while the eclipse darkens the sky (set in draw) */
+#header.dark-sky { color: #eadcc0; }
+
+/* Level / Resolution / Reset rows (these do take clicks) */
+#header .control {
+  display: flex; align-items: center; gap: 10px; margin-top: 12px;
+  font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+  pointer-events: auto; width: max-content;
+}
+#header .control + .control { margin-top: 6px; }
+#header .control[hidden] { display: none; }   /* resolution slider in Level 0 */
+#header #levels, #header #resolution { gap: 4px; }
+#header .control > span:first-child { margin-right: 6px; min-width: 112px; }
+#header .control button {
+  font: inherit; color: inherit; background: none; border: none; cursor: pointer;
+  padding: 2px 5px; opacity: 0.55; border-bottom: 1px solid transparent;
+}
+#header .control button:hover { opacity: 0.9; }
+#header .control button.active { opacity: 1; border-bottom-color: currentColor; }
+/* Reset view: underlined like the active level */
+#header #reset-view {
+  margin-top: 4px; padding: 2px 0; opacity: 0.8; text-transform: inherit; letter-spacing: inherit;
+  border-bottom-color: currentColor;
+}
+#header #reset-view:hover { opacity: 1; }
+/* slider: thin line, small round knob, in the text color */
+#header input[type=range] {
+  -webkit-appearance: none; appearance: none; width: 150px; height: 14px;
+  margin: 0 4px 0 0; background: transparent; cursor: pointer; color: inherit;
+}
+#header input[type=range]::-webkit-slider-runnable-track { height: 1px; background: currentColor; }
+#header input[type=range]::-moz-range-track { height: 1px; background: currentColor; }
+#header input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 11px; height: 11px; margin-top: -5px;
+  border-radius: 50%; background: currentColor; border: none;
+}
+#header input[type=range]::-moz-range-thumb {
+  width: 11px; height: 11px; border-radius: 50%; background: currentColor; border: none;
+}
+#header .control #grid-size-label {
+  margin-left: 8px; letter-spacing: 0.5px; text-transform: none; font-variant-numeric: tabular-nums; opacity: 0.75;
+}
+
+/* look 1, "strip": title left, name right, rule underneath */
+#header.strip {
+  display: grid; grid-template-columns: 1fr auto; row-gap: 8px;
+  padding: 16px 28px 0;
+}
+#header.strip h1, #header.strip .name {
+  font-size: 13px; font-weight: 500; letter-spacing: 3.5px; text-transform: uppercase;
+  padding-bottom: 10px; border-bottom: 1px solid rgba(58, 44, 28, 0.3);
+}
+#header.strip .info, #header.strip .control { grid-column: 1 / 3; }
+#header.strip .control { margin-top: 2px; }
+
+/* look 2, "serif" (in use): book-style title top left */
+#header.serif { padding: 20px 28px 0; }
+#header.serif h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 34px; font-weight: 500; line-height: 1; letter-spacing: 0.5px;
+}
+#header.serif .name {
+  margin: 8px 0 4px; font-size: 11px; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase;
+}
+
+/* look 3, "centered": spaced capitals across the top */
+#header.centered { padding-top: 20px; text-align: center; }
+#header.centered h1 {
+  font-size: 15px; font-weight: 500; letter-spacing: 9px; text-transform: uppercase;
+  margin-right: -9px;  /* cancels the space after the last letter */
+}
+#header.centered .name {
+  display: inline; font-size: 12px; font-weight: 500; letter-spacing: 1px;
+}
+#header.centered .name::after { content: "  \00b7  "; white-space: pre; opacity: 0.6; }
+#header.centered .info { display: inline; }
+#header.centered h1 + .name { line-height: 30px; }
+#header.centered .control { margin: 10px auto 0; }
