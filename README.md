@@ -198,7 +198,7 @@ Then open <http://localhost:8000>. `serve.py` turns off caching so the browser n
 
 ## Demo video
 
-> `[Watch the demo on YouTube](https://youtu.be/Enjf-nwQQ4A)`
+[Watch the demo on YouTube](https://youtu.be/Enjf-nwQQ4A)
 
 The video walks through each level, the controls, and the eclipse.
 
